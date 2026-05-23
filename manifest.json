@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Pomodoro Focus",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "A sleek, modern Pomodoro timer with stats dashboard, task labels, and website blocker.",
   "author": "Pomodoro Focus",
   "icons": {
@@ -17,7 +17,9 @@
     "default_title": "Pomodoro Focus"
   },
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": true
   },
   "options_ui": {
