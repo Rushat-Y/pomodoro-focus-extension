@@ -1,14 +1,14 @@
-// ── Dashboard JS ─────────────────────────────────────────────────────────────
+//Dashboard JS 
 
-const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const PAGE_SIZE = 15;
 
 let allSessions = [];
 let filteredSessions = [];
 let currentPage = 1;
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+//init
 
 async function init() {
   const history = await browser.runtime.sendMessage({ type: 'GET_HISTORY' });
@@ -34,7 +34,7 @@ async function init() {
   });
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+//helpers
 
 function isoToday() {
   return new Date().toLocaleDateString('en-CA');
@@ -66,7 +66,7 @@ function calcStreak(byDate) {
   return streak;
 }
 
-// ── Summary cards ─────────────────────────────────────────────────────────────
+//summary cards
 
 function renderSummary() {
   const workSessions = allSessions.filter(s => s.phase === 'work' || !s.phase);
@@ -85,22 +85,22 @@ function renderSummary() {
   document.getElementById('bestDay').textContent = bestDay;
 }
 
-// ── Heatmap ───────────────────────────────────────────────────────────────────
+//heatmap
 
 function renderHeatmap() {
   const grid = document.getElementById('heatmapGrid');
   const monthLabels = document.getElementById('heatmapMonths');
-  const WEEKS = 14; // 14 weeks ≈ 98 days — covers ~3 months nicely
+  const WEEKS = 14;
   const TOTAL_DAYS = WEEKS * 7;
 
   const workSessions = allSessions.filter(s => s.phase === 'work' || !s.phase);
   const byDate = groupByDate(workSessions);
   const maxCount = Math.max(1, ...Object.values(byDate));
 
-  // Build date list from TOTAL_DAYS ago to today, starting on a Monday
+  //Build date list from TOTAL_DAYS ago to today, starting on a Monday
   const today = new Date();
-  const todayDow = today.getDay(); // 0=Sun
-  // Pad so last column ends on today's day-of-week
+  const todayDow = today.getDay();
+  //Pad so last column ends on today's day-of-week
   const endDate = new Date(today);
   const startDate = new Date(today);
   startDate.setDate(startDate.getDate() - (TOTAL_DAYS - 1));
@@ -131,7 +131,7 @@ function renderHeatmap() {
     });
     cell.addEventListener('mousemove', (e) => {
       tooltip.style.left = (e.clientX + 12) + 'px';
-      tooltip.style.top  = (e.clientY - 28) + 'px';
+      tooltip.style.top = (e.clientY - 28) + 'px';
     });
     cell.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
 
@@ -139,7 +139,7 @@ function renderHeatmap() {
     cells.push({ d, cell });
   }
 
-  // Month labels
+  //Month labels
   monthLabels.innerHTML = '';
   let lastMonth = -1;
   const colWidth = (grid.offsetWidth || (WEEKS * 14)) / WEEKS;
@@ -156,16 +156,16 @@ function renderHeatmap() {
     }
   }
 
-  // Range sub-label
+  //Range sub-label
   document.getElementById('heatmapRange').textContent =
-    `${startDate.toLocaleDateString('en-US',{month:'short',day:'numeric'})} — ${today.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}`;
+    `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — ${today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
 }
 
-// ── Bar chart ─────────────────────────────────────────────────────────────────
+//bar chart
 
 function renderBarChart() {
   const chart = document.getElementById('barChart');
-  chart.innerHTML = '';
+  chart.textContent = '';
 
   const workSessions = allSessions.filter(s => s.phase === 'work' || !s.phase);
   const byDate = groupByDate(workSessions);
@@ -185,22 +185,35 @@ function renderBarChart() {
     const heightPct = (day.count / max) * 100;
     const group = document.createElement('div');
     group.className = 'bar-group';
-    group.innerHTML = `
-      <div class="bar-count">${day.count || ''}</div>
-      <div class="bar-wrap">
-        <div class="bar" style="height:${heightPct}%" title="${day.count} sessions"></div>
-      </div>
-      <div class="bar-day">${day.label}</div>`;
+    const countDiv = document.createElement('div');
+    countDiv.className = 'bar-count';
+    countDiv.textContent = day.count || '';
+
+    const wrapDiv = document.createElement('div');
+    wrapDiv.className = 'bar-wrap';
+    const barDiv = document.createElement('div');
+    barDiv.className = 'bar';
+    barDiv.style.height = `${heightPct}%`;
+    barDiv.title = `${day.count} sessions`;
+    wrapDiv.appendChild(barDiv);
+
+    const dayDiv = document.createElement('div');
+    dayDiv.className = 'bar-day';
+    dayDiv.textContent = day.label;
+
+    group.appendChild(countDiv);
+    group.appendChild(wrapDiv);
+    group.appendChild(dayDiv);
     chart.appendChild(group);
   });
 }
 
-// ── Session log ───────────────────────────────────────────────────────────────
+//session log
 
 function renderLog() {
   const tbody = document.getElementById('logBody');
   const pagination = document.getElementById('logPagination');
-  tbody.innerHTML = '';
+  tbody.textContent = '';
 
   const total = filteredSessions.length;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -210,8 +223,14 @@ function renderLog() {
   const page = filteredSessions.slice(start, start + PAGE_SIZE);
 
   if (page.length === 0) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="3">No sessions found.</td></tr>`;
-    pagination.innerHTML = '';
+    const tr = document.createElement('tr');
+    tr.className = 'empty-row';
+    const td = document.createElement('td');
+    td.colSpan = 3;
+    td.textContent = 'No sessions found.';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    pagination.textContent = '';
     return;
   }
 
@@ -223,15 +242,26 @@ function renderLog() {
     });
     const label = s.label || '';
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="td-date">${dateStr}</td>
-      <td class="td-label ${label ? '' : 'empty'}">${label || 'unlabeled'}</td>
-      <td class="td-duration">${s.duration || 25} min</td>`;
+    const tdDate = document.createElement('td');
+    tdDate.className = 'td-date';
+    tdDate.textContent = dateStr;
+
+    const tdLabel = document.createElement('td');
+    tdLabel.className = `td-label ${label ? '' : 'empty'}`;
+    tdLabel.textContent = label || 'unlabeled';
+
+    const tdDuration = document.createElement('td');
+    tdDuration.className = 'td-duration';
+    tdDuration.textContent = `${s.duration || 25} min`;
+
+    tr.appendChild(tdDate);
+    tr.appendChild(tdLabel);
+    tr.appendChild(tdDuration);
     tbody.appendChild(tr);
   });
 
-  // Pagination
-  pagination.innerHTML = '';
+  //Pagination
+  pagination.textContent = '';
   if (totalPages <= 1) return;
 
   const prev = document.createElement('button');
@@ -257,5 +287,4 @@ function renderLog() {
   pagination.appendChild(next);
 }
 
-// ── Boot ──────────────────────────────────────────────────────────────────────
 init();
