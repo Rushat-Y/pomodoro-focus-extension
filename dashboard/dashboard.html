@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Pomodoro Focus — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="dashboard.css"/>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <span class="brand-name">Pomodoro Focus</span>
+      <span class="page-title">Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-ghost" id="openTimerBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        Open Timer
+      </button>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- Summary cards -->
+    <section class="summary-cards" id="summaryCards">
+      <div class="card stat-card">
+        <div class="card-value" id="totalSessions">0</div>
+        <div class="card-label">Total Sessions</div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-value" id="totalHours">0h</div>
+        <div class="card-label">Focus Hours</div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-value" id="currentStreakVal">0</div>
+        <div class="card-label">Day Streak</div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-value" id="bestDay">0</div>
+        <div class="card-label">Best Day</div>
+      </div>
+    </section>
+
+    <!-- Heatmap -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Activity</h2>
+        <span class="section-sub" id="heatmapRange"></span>
+      </div>
+      <div class="card heatmap-card">
+        <div class="heatmap-labels" id="heatmapMonths"></div>
+        <div class="heatmap-body">
+          <div class="heatmap-days">
+            <span>Mon</span><span>Wed</span><span>Fri</span>
+          </div>
+          <div class="heatmap-grid" id="heatmapGrid"></div>
+        </div>
+        <div class="heatmap-legend">
+          <span class="legend-label">Less</span>
+          <span class="legend-cell" style="--op:0.08"></span>
+          <span class="legend-cell" style="--op:0.3"></span>
+          <span class="legend-cell" style="--op:0.55"></span>
+          <span class="legend-cell" style="--op:0.8"></span>
+          <span class="legend-cell" style="--op:1"></span>
+          <span class="legend-label">More</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bar chart -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Last 7 Days</h2>
+      </div>
+      <div class="card chart-card">
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+    </section>
+
+    <!-- Session log -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Session Log</h2>
+        <input type="text" class="search-input" id="logSearch" placeholder="Filter by label..."/>
+      </div>
+      <div class="card log-card">
+        <table class="log-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Label</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody id="logBody">
+            <tr class="empty-row"><td colspan="3">No sessions recorded yet.</td></tr>
+          </tbody>
+        </table>
+        <div class="log-pagination" id="logPagination"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

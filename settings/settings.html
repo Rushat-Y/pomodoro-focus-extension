@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pomodoro Focus — Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="settings.css"/>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Pomodoro Focus</div>
+        <div class="brand-sub">Settings</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a class="nav-link active" href="#timer">Timer</a>
+      <a class="nav-link" href="#sounds">Sound</a>
+      <a class="nav-link" href="#notifications">Notifications</a>
+      <a class="nav-link" href="#blocker">Blocker</a>
+      <a class="nav-link" href="#appearance">Appearance</a>
+      <a class="nav-link" href="#data">Data</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="content">
+    <div class="saved-toast" id="savedToast">Saved</div>
+
+    <!-- Timer Section -->
+    <section id="timer" class="section">
+      <h2 class="section-title">Timer Durations</h2>
+      <p class="section-desc">Customize the length of each phase in minutes.</p>
+
+      <div class="card">
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="workDuration" class="setting-label">Focus Duration</label>
+            <span class="setting-desc">Length of each work session</span>
+          </div>
+          <div class="num-input-wrap">
+            <button class="num-btn" data-target="workDuration" data-delta="-1">−</button>
+            <input type="number" id="workDuration" min="1" max="120" value="25"/>
+            <button class="num-btn" data-target="workDuration" data-delta="1">+</button>
+            <span class="unit">min</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="shortBreakDuration" class="setting-label">Short Break</label>
+            <span class="setting-desc">Length of short breaks between sessions</span>
+          </div>
+          <div class="num-input-wrap">
+            <button class="num-btn" data-target="shortBreakDuration" data-delta="-1">−</button>
+            <input type="number" id="shortBreakDuration" min="1" max="60" value="5"/>
+            <button class="num-btn" data-target="shortBreakDuration" data-delta="1">+</button>
+            <span class="unit">min</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="longBreakDuration" class="setting-label">Long Break</label>
+            <span class="setting-desc">Length of the long break</span>
+          </div>
+          <div class="num-input-wrap">
+            <button class="num-btn" data-target="longBreakDuration" data-delta="-1">−</button>
+            <input type="number" id="longBreakDuration" min="1" max="120" value="15"/>
+            <button class="num-btn" data-target="longBreakDuration" data-delta="1">+</button>
+            <span class="unit">min</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="longBreakInterval" class="setting-label">Long Break Interval</label>
+            <span class="setting-desc">Sessions before a long break triggers</span>
+          </div>
+          <div class="num-input-wrap">
+            <button class="num-btn" data-target="longBreakInterval" data-delta="-1">−</button>
+            <input type="number" id="longBreakInterval" min="2" max="10" value="4"/>
+            <button class="num-btn" data-target="longBreakInterval" data-delta="1">+</button>
+            <span class="unit">sessions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Auto-start</h3>
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="autoStartBreaks" class="setting-label">Auto-start breaks</label>
+            <span class="setting-desc">Automatically start break when focus ends</span>
+          </div>
+          <label class="toggle" for="autoStartBreaks">
+            <input type="checkbox" id="autoStartBreaks"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="autoStartWork" class="setting-label">Auto-start focus</label>
+            <span class="setting-desc">Automatically resume focus after break</span>
+          </div>
+          <label class="toggle" for="autoStartWork">
+            <input type="checkbox" id="autoStartWork"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sound Section -->
+    <section id="sounds" class="section">
+      <h2 class="section-title">Sound</h2>
+      <p class="section-desc">Chime alerts when sessions end.</p>
+      <div class="card">
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="soundEnabled" class="setting-label">Enable sounds</label>
+            <span class="setting-desc">Play a chime when a phase ends</span>
+          </div>
+          <label class="toggle" for="soundEnabled">
+            <input type="checkbox" id="soundEnabled" checked/>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row" id="volumeRow">
+          <div class="setting-info">
+            <label for="volume" class="setting-label">Volume</label>
+            <span class="setting-desc">Notification chime volume</span>
+          </div>
+          <div class="slider-wrap">
+            <input type="range" id="volume" min="0" max="100" value="70" class="range-input"/>
+            <span class="range-val" id="volumeVal">70%</span>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <label class="setting-label">Test sound</label>
+            <span class="setting-desc">Preview the notification chime</span>
+          </div>
+          <button class="btn-outline" id="testSound">Play</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notifications Section -->
+    <section id="notifications" class="section">
+      <h2 class="section-title">Notifications</h2>
+      <p class="section-desc">Browser notifications keep you on track.</p>
+      <div class="card">
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="notificationsEnabled" class="setting-label">Enable notifications</label>
+            <span class="setting-desc">Show a browser notification when sessions end</span>
+          </div>
+          <label class="toggle" for="notificationsEnabled">
+            <input type="checkbox" id="notificationsEnabled" checked/>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Website Blocker Section -->
+    <section id="blocker" class="section">
+      <h2 class="section-title">Website Blocker</h2>
+      <p class="section-desc">Block distracting sites during active focus sessions.</p>
+      <div class="card">
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="blockEnabled" class="setting-label">Enable blocker</label>
+            <span class="setting-desc">Redirect blocked sites during work sessions</span>
+          </div>
+          <label class="toggle" for="blockEnabled">
+            <input type="checkbox" id="blockEnabled"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row domain-row" id="domainRow">
+          <div class="setting-info" style="width:100%">
+            <label class="setting-label">Blocked domains</label>
+            <span class="setting-desc">One domain per line, e.g. youtube.com</span>
+            <textarea
+              id="blocklist"
+              class="domain-textarea"
+              placeholder="youtube.com&#10;twitter.com&#10;reddit.com"
+              rows="5"
+              spellcheck="false"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Appearance Section -->
+    <section id="appearance" class="section">
+      <h2 class="section-title">Appearance</h2>
+      <p class="section-desc">Popup theme and display preferences.</p>
+      <div class="card">
+        <div class="setting-row">
+          <div class="setting-info">
+            <label class="setting-label">Theme</label>
+            <span class="setting-desc">Light or dark popup appearance</span>
+          </div>
+          <div class="theme-options">
+            <button class="theme-btn active" data-theme="dark" id="themeDark">Dark</button>
+            <button class="theme-btn" data-theme="light" id="themeLight">Light</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Section -->
+    <section id="data" class="section">
+      <h2 class="section-title">Data</h2>
+      <p class="section-desc">Manage your Pomodoro history and data.</p>
+      <div class="card">
+        <div class="setting-row">
+          <div class="setting-info">
+            <label class="setting-label">Reset today's data</label>
+            <span class="setting-desc">Clear today's session count and focus time</span>
+          </div>
+          <button class="btn-danger" id="resetTodayBtn">Reset</button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <label class="setting-label">Factory reset</label>
+            <span class="setting-desc">Restore all settings to defaults</span>
+          </div>
+          <button class="btn-danger" id="factoryResetBtn">Reset All</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Save button -->
+    <div class="save-bar">
+      <button class="btn-save" id="saveBtn">Save Settings</button>
+    </div>
+  </main>
+</div>
+
+<script src="settings.js"></script>
+</body>
+</html>

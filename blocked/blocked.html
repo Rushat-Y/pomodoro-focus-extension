@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Site Blocked — Pomodoro Focus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="blocked.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="ring">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="52" class="ring-track"/>
+        <circle cx="60" cy="60" r="52" class="ring-fill" id="ringFill"/>
+      </svg>
+      <div class="ring-inner">
+        <div class="time-left" id="timeLeft">—</div>
+        <div class="time-unit">remaining</div>
+      </div>
+    </div>
+    <h1 class="site-name" id="siteName">site.com</h1>
+    <p class="message">This site is blocked during your focus session.<br/>Stay on track — you're almost there.</p>
+    <button class="btn-back" id="backBtn">Go Back</button>
+    <p class="override-hint">To disable blocking, go to Settings.</p>
+  </div>
+  <script src="blocked.js"></script>
+</body>
+</html>

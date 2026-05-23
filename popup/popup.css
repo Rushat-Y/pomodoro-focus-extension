@@ -1,0 +1,351 @@
+/* ── Pomodoro Focus — Popup Styles (Minimalist) ─────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Single muted accent — warm stone */
+  --accent:        #c8c0b8;
+  --accent-dim:    rgba(200,192,184,0.10);
+  --accent-work:   #d4604f;   /* warm coral-red    */
+  --accent-short:  #3dbfaa;   /* vivid teal        */
+  --accent-long:   #8b66d4;   /* rich lavender     */
+
+  /* Surfaces */
+  --bg-1:          #0e0e10;
+  --bg-2:          #161618;
+  --bg-3:          #1e1e22;
+  --border:        rgba(255,255,255,0.06);
+  --text-primary:  #ededef;
+  --text-secondary:#6a6a7c;
+  --text-muted:    #3a3a48;
+
+  --radius-lg: 18px;
+  --radius-md: 10px;
+  --radius-sm: 7px;
+  --ease: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+[data-theme="light"] {
+  --bg-1:          #f4f4f2;
+  --bg-2:          #eaeae6;
+  --bg-3:          #dededa;
+  --border:        rgba(0,0,0,0.07);
+  --text-primary:  #18181c;
+  --text-secondary:#72727e;
+  --text-muted:    #aaaab4;
+  --accent:        #8c7e78;
+  --accent-dim:    rgba(140,126,120,0.10);
+  --accent-work:   #c44f40;
+  --accent-short:  #30a896;
+  --accent-long:   #7856c0;
+}
+
+/* Phase color mapping */
+[data-phase="work"]       { --phase-color: var(--accent-work);  }
+[data-phase="shortBreak"] { --phase-color: var(--accent-short); }
+[data-phase="longBreak"]  { --phase-color: var(--accent-long);  }
+
+/* ── App shell ─────────────────────────────────────────────────────────── */
+body {
+  width: 320px;
+  min-height: 460px;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg-1);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 16px;
+  background: var(--bg-1);
+  transition: background var(--ease);
+}
+
+/* ── Header ────────────────────────────────────────────────────────────── */
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 10px;
+}
+
+.app-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--ease), color var(--ease);
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.icon-btn svg { width: 14px; height: 14px; }
+.icon-btn:hover { border-color: var(--phase-color); color: var(--phase-color); }
+
+
+/* ── Phase tabs ────────────────────────────────────────────────────────── */
+.phase-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--bg-3);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  margin: 0 14px 6px;
+  width: calc(100% - 28px);
+}
+
+.phase-tab {
+  flex: 1;
+  border: none;
+  border-radius: calc(var(--radius-md) - 1px);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 6px 4px;
+  cursor: pointer;
+  transition: all var(--ease);
+  letter-spacing: 0.02em;
+}
+
+.phase-tab.active {
+  background: var(--bg-1);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.phase-tab:not(.active):hover { color: var(--text-secondary); }
+
+/* ── Ring ──────────────────────────────────────────────────────────────── */
+.ring-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 10px 0 6px;
+}
+
+.ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ring-track {
+  fill: none;
+  stroke: var(--bg-3);
+  stroke-width: 6;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: var(--phase-color);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 603.19;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke 0.4s ease;
+}
+
+.ring-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.time-display {
+  font-size: 44px;
+  font-weight: 300;
+  letter-spacing: -1px;
+  color: var(--text-primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.phase-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ── Controls ──────────────────────────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 8px 0 12px;
+}
+
+.ctrl-btn {
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, background var(--ease), border-color var(--ease);
+}
+
+.ctrl-btn.primary {
+  width: 58px;
+  height: 58px;
+  background: var(--bg-3);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.ctrl-btn.primary svg { width: 20px; height: 20px; }
+
+.ctrl-btn.primary:hover {
+  background: var(--phase-color);
+  border-color: var(--phase-color);
+  color: var(--bg-1);
+  transform: scale(1.05);
+}
+
+/* Running state: highlight play button */
+.app.running .ctrl-btn.primary {
+  background: var(--phase-color);
+  border-color: var(--phase-color);
+  color: var(--bg-1);
+}
+
+.ctrl-btn.primary:active { transform: scale(0.94); }
+
+.ctrl-btn.secondary {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.ctrl-btn.secondary svg { width: 16px; height: 16px; }
+.ctrl-btn.secondary:hover { border-color: var(--text-secondary); color: var(--text-secondary); transform: scale(1.05); }
+.ctrl-btn.secondary:active { transform: scale(0.93); }
+
+/* ── Session dots ──────────────────────────────────────────────────────── */
+.session-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.session-dots { display: flex; gap: 7px; }
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  transition: background var(--ease), border-color var(--ease);
+}
+
+.dot.filled {
+  background: var(--phase-color);
+  border-color: var(--phase-color);
+}
+
+.session-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* ── Task label input ───────────────────────────────────────────────────── */
+.label-row {
+  width: calc(100% - 28px);
+  margin: 0 0 4px;
+}
+
+.label-input {
+  width: 100%;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 7px 12px;
+  outline: none;
+  transition: border-color var(--ease);
+  text-align: center;
+}
+
+.label-input::placeholder { color: var(--text-muted); }
+.label-input:focus { border-color: var(--phase-color); }
+.label-input:disabled { opacity: 0.4; cursor: default; }
+
+/* ── Stats bar ─────────────────────────────────────────────────────────── */
+.stats-bar {
+
+  display: flex;
+  align-items: center;
+  width: calc(100% - 28px);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 0;
+  margin-top: 14px;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+}
