@@ -2,7 +2,7 @@
 
 A minimal cross-browser extension for the Pomodoro technique. No accounts, no tracking, works offline.
 
-> 🦊 **Firefox Users:** You can install this instantly from the [Firefox Add-ons Store](#) (link coming soon).
+> **Firefox Users:** You can install this instantly from the [Firefox Add-ons Store](https://addons.mozilla.org/addon/pomodoro-focus-stats/).
 
 - Adjustable work / break durations
 - Task labels that carry over between sessions
