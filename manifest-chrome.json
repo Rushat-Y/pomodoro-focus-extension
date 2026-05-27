@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Pomodoro Focus",
+  "version": "1.1.0",
+  "description": "A sleek, modern Pomodoro timer with stats dashboard, task labels, and website blocker.",
+  "author": "Pomodoro Focus",
+  "icons": {
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    },
+    "default_title": "Pomodoro Focus"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "settings/settings.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "alarms",
+    "declarativeNetRequest",
+    "offscreen"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ]
+}
